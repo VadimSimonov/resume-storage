@@ -40,3 +40,4 @@
 - Протестируйте вашу реализацию, запустив `MainTestArrayStorage.main()`: в IDEA слева на полях зеленая стрелка.
 - Протестируйте вашу реализацию интерактивно с помощью `MainArray.main()`.
 # resume-storage
+# resume-storage
