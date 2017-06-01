@@ -52,5 +52,6 @@ public class ArrayStorage {
         return (int) Arrays
                 .stream(storage)
                 .filter(i->i!=null).count();
+
     }
 }
