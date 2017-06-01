@@ -45,11 +45,12 @@ public class ArrayStorage {
         storage= Arrays.stream(storage)
                 .filter(x ->(x!=null))
                .toArray(Resume[]::new);
-
         return storage;
     }
 
     int size() {
-        return storage.length;
+        return (int) Arrays
+                .stream(storage)
+                .filter(i->i!=null).count();
     }
 }
