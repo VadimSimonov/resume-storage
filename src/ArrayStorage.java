@@ -14,21 +14,12 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-/*
-        storage = Arrays.stream(storage)
-                .filter(i->i==null)
-                .findFirst()
-                .map(i->i=r)
-                .orElse()
-*/
-
-        for (int i = 0; i <storage.length ; i++) {
-                if (storage[i]==null) {
-                    storage[i] = r;
-                    break;
-                }
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] == null) {
+                storage[i] = r;
+                break;
+            }
         }
-
     }
 
     Resume get(String uuid) {
