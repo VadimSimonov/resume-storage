@@ -45,7 +45,7 @@ public class ArrayStorage {
                 .toArray(Resume[]::new);
         return storage;
     }
-
+\
     int size() {
         return (int) Arrays.stream(storage)
                 .filter(i->i!=null)
