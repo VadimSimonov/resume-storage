@@ -4,7 +4,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    Resume[] storage = new Resume[2];
 
     void clear() {
         storage = Arrays.stream(storage)
@@ -14,12 +14,25 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
-        }
+        /*Resume rr = new Resume();
+        rr.uuid = "uuid1";
+        storage[0]=rr;*/
+
+        Resume f = Arrays.stream(storage)
+                .filter(i -> i!=null)
+                .filter(i-> i.toString().equals(r.toString()))
+                .findFirst()
+                .orElse(null);
+         if (f==null) {
+             for (int i = 0; i < storage.length; i++) {
+                 if (storage[i] == null) {
+                     storage[i] = r;
+                     break;
+                 }
+             }
+             int index=Arrays.asList(storage).indexOf(r);
+             if (index ==-1) System.out.println("...");
+         }else System.out.println("Resume ...");
     }
 
     Resume get(String uuid) {
@@ -52,4 +65,17 @@ public class ArrayStorage {
                 .count();
 
     }
+    void update(Resume u,Resume replace)
+    {
+        Resume findit = Arrays.stream(storage)
+                .filter(i->i.toString().equals(u.toString()))
+                .findFirst()
+                .orElse(null);
+        if (findit!=null) {
+            int index = Arrays.asList(storage).indexOf(findit);
+            storage[index] = replace;
+        }
+
+    }
+
 }
