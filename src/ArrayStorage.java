@@ -1,80 +1,99 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[2];
+    Resume[] storage = new Resume[10000];
 
     void clear() {
-        storage = Arrays.stream(storage)
+        Resume[]storage1=Arrays.stream(storage)
                 .filter(i->i!=null)
-                .map(n-> n=null)
+                .map(i-> i=null)
                 .toArray(Resume[]::new);
+        //.collect(Collectors.toList());
+        System.arraycopy(storage1,0,storage,0,storage1.length);
     }
 
     void save(Resume r) {
-        /*Resume rr = new Resume();
-        rr.uuid = "uuid1";
-        storage[0]=rr;*/
-
-        Resume f = Arrays.stream(storage)
-                .filter(i -> i!=null)
-                .filter(i-> i.toString().equals(r.toString()))
-                .findFirst()
-                .orElse(null);
+        Resume f =checkvalue(r.uuid);
          if (f==null) {
-             for (int i = 0; i < storage.length; i++) {
-                 if (storage[i] == null) {
-                     storage[i] = r;
-                     break;
-                 }
-             }
-             int index=Arrays.asList(storage).indexOf(r);
-             if (index ==-1) System.out.println("...");
-         }else System.out.println("Resume ...");
+            boolean fl=checkfreesize(storage);
+            if (fl==true) {
+                for (int i = 0; i < storage.length; i++) {
+                    if (storage[i] == null) {
+                        storage[i] = r;
+                        break;
+                    }
+                }
+            }else System.out.println("not enough space");
+         }else System.out.println("Resume already exist");
+    }
+
+    private boolean checkfreesize(Resume[] storage) {
+        boolean flag=false;
+        for (int i = 0; i <storage.length ; i++) {
+            if (storage[i]==null)
+            {flag=true;
+                break;
+            }
+        }
+
+        return flag;
     }
 
     Resume get(String uuid) {
-        return Arrays.stream(storage)
-                .filter(n -> (n!=null) && n.toString().equals(uuid))
-                .findFirst()
-                .orElse(null);
+        Resume f = checkvalue(uuid);
+        if (f!=null)
+        return f;
+        else
+            System.out.println("Resume not found");
+        return f;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i <storage.length ; i++) {
-            if (storage[i].toString().equals(uuid))
-            storage[i]=null;
-        }
+        Resume a=checkvalue(uuid);
+        if (a!= null) {
+            Collection c = new ArrayList(Arrays.asList(storage));
+            c.remove(a);
+            c.toArray(storage);
+        }else System.out.println("Resume not found");
+    }
+
+    private Resume checkvalue(String uuid) {
+        Resume a = Arrays.stream(storage)
+                .filter(i -> i!=null)
+                .filter(i -> i.uuid.equals(uuid))
+                .findFirst()
+                .orElse(null);
+        return a;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        storage= Arrays.stream(storage)
+        Resume[] storage1= Arrays.stream(storage)
                 .filter(x ->(x!=null))
                 .toArray(Resume[]::new);
-        return storage;
+        return storage1;
     }
 
     int size() {
         return (int) Arrays.stream(storage)
                 .filter(i->i!=null)
                 .count();
-
     }
     void update(Resume u,Resume replace)
     {
-        Resume findit = Arrays.stream(storage)
-                .filter(i->i.toString().equals(u.toString()))
-                .findFirst()
-                .orElse(null);
-        if (findit!=null) {
-            int index = Arrays.asList(storage).indexOf(findit);
+        Resume f =checkvalue(u.uuid);
+        if (f!=null) {
+            int index = Arrays.asList(storage).indexOf(f);
             storage[index] = replace;
-        }
+        }else System.out.println("Resume not found");
 
     }
 
