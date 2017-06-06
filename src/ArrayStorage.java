@@ -19,9 +19,9 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        Resume f =checkvalue(r.uuid);
+        Resume f =CheckValue(r.uuid);
          if (f==null) {
-            boolean fl=checkfreesize(storage);
+            boolean fl=checkFreeSize(storage);
             if (fl==true) {
                 for (int i = 0; i < storage.length; i++) {
                     if (storage[i] == null) {
@@ -33,7 +33,7 @@ public class ArrayStorage {
          }else System.out.println("Resume already exist");
     }
 
-    private boolean checkfreesize(Resume[] storage) {
+    private boolean checkFreeSize(Resume[] storage) {
         boolean flag=false;
         for (int i = 0; i <storage.length ; i++) {
             if (storage[i]==null)
@@ -46,7 +46,7 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        Resume f = checkvalue(uuid);
+        Resume f = CheckValue(uuid);
         if (f!=null)
         return f;
         else
@@ -55,7 +55,7 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        Resume a=checkvalue(uuid);
+        Resume a=CheckValue(uuid);
         if (a!= null) {
             Collection c = new ArrayList(Arrays.asList(storage));
             c.remove(a);
@@ -63,7 +63,7 @@ public class ArrayStorage {
         }else System.out.println("Resume not found");
     }
 
-    private Resume checkvalue(String uuid) {
+    private Resume CheckValue(String uuid) {
         Resume a = Arrays.stream(storage)
                 .filter(i -> i!=null)
                 .filter(i -> i.uuid.equals(uuid))
@@ -89,7 +89,7 @@ public class ArrayStorage {
     }
     void update(Resume u,Resume replace)
     {
-        Resume f =checkvalue(u.uuid);
+        Resume f =CheckValue(u.uuid);
         if (f!=null) {
             int index = Arrays.asList(storage).indexOf(f);
             storage[index] = replace;
