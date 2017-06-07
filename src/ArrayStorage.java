@@ -20,7 +20,7 @@ public class ArrayStorage {
     void save(Resume r) {
         Resume CheckValue =CheckValue(r.getUuid());
          if (CheckValue==null) {
-            boolean flag=checkFreeSize(storage);
+            boolean flag=checkFreeSize();
             if (flag) {
                 for (int i = 0; i < storage.length; i++) {
                     if (storage[i]==null) {
@@ -33,11 +33,10 @@ public class ArrayStorage {
          }else System.out.println("Resume already exist");
     }
 
-    private boolean checkFreeSize(Resume[] storage) {
+    private boolean checkFreeSize() {
         boolean flag=false;
-        if (size<storage.length)
-            {flag=true;
-        }
+        flag=size<storage.length?flag=true:flag;
+
         return flag;
     }
 
