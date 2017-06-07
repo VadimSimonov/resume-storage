@@ -18,12 +18,12 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        Resume CheckValue =CheckValue(r.uuid);
+        Resume CheckValue =CheckValue(r.getUuid());
          if (CheckValue==null) {
             boolean flag=checkFreeSize(storage);
             if (flag) {
                 for (int i = 0; i < storage.length; i++) {
-                    if (storage[i] == null) {
+                    if (storage[i]==null) {
                         storage[i] = r;
                         size++;
                         break;
@@ -35,11 +35,8 @@ public class ArrayStorage {
 
     private boolean checkFreeSize(Resume[] storage) {
         boolean flag=false;
-        for (int i = 0; i <storage.length ; i++) {
-            if (storage[i]==null)
+        if (size<storage.length)
             {flag=true;
-                break;
-            }
         }
         return flag;
     }
@@ -55,7 +52,7 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         for (int i = 0; i <size ; i++) {
-            if (uuid==storage[i].getUuid()) {
+            if (uuid.equals(storage[i].getUuid())) {
                 storage[i] = storage[size - 1];
                 storage[size-1] = null;
                 size--;
@@ -66,7 +63,7 @@ public class ArrayStorage {
     private Resume CheckValue(String uuid) {
         Resume a = Arrays.stream(storage)
                 .filter(i -> i!=null)
-                .filter(i -> i.uuid.equals(uuid))
+                .filter(i -> i.getUuid().equals(uuid))
                 .findFirst()
                 .orElse(null);
         return a;
@@ -88,7 +85,7 @@ public class ArrayStorage {
 
     void update(Resume u,Resume replace)
     {
-        Resume f =CheckValue(u.uuid);
+        Resume f =CheckValue(u.getUuid());
         if (f!=null) {
             int index = Arrays.asList(storage).indexOf(f);
             storage[index] = replace;
