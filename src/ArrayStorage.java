@@ -1,31 +1,30 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size=0;
 
     void clear() {
-        Resume[]storage1=Arrays.stream(storage)
-                .filter(i->i!=null)
-                .map(i-> i=null)
-                .toArray(Resume[]::new);
-        //.collect(Collectors.toList());
-        System.arraycopy(storage1,0,storage,0,storage1.length);
+        for (int i = 0; i <size ; i++) {
+            storage[i]=null;
+        }
+        size=0;
     }
 
     void save(Resume r) {
-        Resume f =CheckValue(r.uuid);
-         if (f==null) {
-            boolean fl=checkFreeSize(storage);
-            if (fl==true) {
+        Resume CheckValue =CheckValue(r.uuid);
+         if (CheckValue==null) {
+            boolean flag=checkFreeSize(storage);
+            if (flag) {
                 for (int i = 0; i < storage.length; i++) {
                     if (storage[i] == null) {
                         storage[i] = r;
+                        size++;
                         break;
                     }
                 }
@@ -41,7 +40,6 @@ public class ArrayStorage {
                 break;
             }
         }
-
         return flag;
     }
 
@@ -55,12 +53,13 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        Resume a=CheckValue(uuid);
-        if (a!= null) {
-            Collection c = new ArrayList(Arrays.asList(storage));
-            c.remove(a);
-            c.toArray(storage);
-        }else System.out.println("Resume not found");
+        for (int i = 0; i <size ; i++) {
+            if (uuid==storage[i].getUuid()) {
+                storage[i] = storage[size - 1];
+                storage[size-1] = null;
+                size--;
+            }
+        }
     }
 
     private Resume CheckValue(String uuid) {
@@ -83,10 +82,9 @@ public class ArrayStorage {
     }
 
     int size() {
-        return (int) Arrays.stream(storage)
-                .filter(i->i!=null)
-                .count();
+        return size;
     }
+
     void update(Resume u,Resume replace)
     {
         Resume f =CheckValue(u.uuid);
