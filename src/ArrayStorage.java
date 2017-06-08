@@ -34,10 +34,7 @@ public class ArrayStorage {
     }
 
     private boolean checkFreeSize() {
-        boolean flag=false;
-        flag=size<storage.length?flag=true:flag;
-
-        return flag;
+        return size<storage.length;
     }
 
     Resume get(String uuid) {
