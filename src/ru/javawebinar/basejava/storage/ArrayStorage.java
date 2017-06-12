@@ -1,23 +1,25 @@
-import java.util.ArrayList;
+package ru.javawebinar.basejava.storage;
+
+import ru.javawebinar.basejava.model.Resume;
+
 import java.util.Arrays;
-import java.util.Collection;
 
 
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
+public class ArrayStorage extends AbstractArrayStorage {
     Resume[] storage = new Resume[10000];
     private int size=0;
 
-    void clear() {
+    public  void clear() {
         for (int i = 0; i <size ; i++) {
             storage[i]=null;
         }
         size=0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         Resume CheckValue =CheckValue(r.getUuid());
          if (CheckValue==null) {
             boolean flag=checkFreeSize();
@@ -33,11 +35,11 @@ public class ArrayStorage {
          }else System.out.println("Resume already exist");
     }
 
-    private boolean checkFreeSize() {
+    public boolean checkFreeSize() {
         return size<storage.length;
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         Resume f = CheckValue(uuid);
         if (f!=null)
         return f;
@@ -46,7 +48,7 @@ public class ArrayStorage {
         return f;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         for (int i = 0; i <size ; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 storage[i] = storage[size - 1];
@@ -56,7 +58,7 @@ public class ArrayStorage {
         }
     }
 
-    private Resume CheckValue(String uuid) {
+    public Resume CheckValue(String uuid) {
         Resume a = Arrays.stream(storage)
                 .filter(i -> i!=null)
                 .filter(i -> i.getUuid().equals(uuid))
@@ -68,18 +70,18 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         Resume[] storage1= Arrays.stream(storage)
                 .filter(x ->(x!=null))
                 .toArray(Resume[]::new);
         return storage1;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
-    void update(Resume u,Resume replace)
+    public void update(Resume u,Resume replace)
     {
         Resume f =CheckValue(u.getUuid());
         if (f!=null) {
