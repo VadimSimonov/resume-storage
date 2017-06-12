@@ -15,14 +15,14 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        Resume f = CheckValue(uuid);
-        if (f!=null)
-            return f;
-        else
-            System.out.println("Resume not found");
-        return f;
+        int index = CheckValue(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " not exist");
+            return null;
+        }
+        return storage[index];
     }
 
-    protected abstract Resume CheckValue(String uuid);
+    protected abstract int CheckValue(String uuid);
 
 }

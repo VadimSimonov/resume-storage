@@ -15,7 +15,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void update(Resume r, Resume u) {
+    public void update(Resume r) {
 
     }
 
@@ -35,13 +35,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected Resume CheckValue(String uuid) {
-        /*
+    protected int CheckValue(String uuid) {
         Resume searchKey = new Resume();
-        Resume result = new Resume();
         searchKey.setUuid(uuid);
-        return String.valueOf(Arrays.binarySearch(storage, 0, size, searchKey));
-        */
-        return null;
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 }

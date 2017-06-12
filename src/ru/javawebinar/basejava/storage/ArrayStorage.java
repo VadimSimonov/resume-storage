@@ -19,34 +19,22 @@ public class ArrayStorage extends AbstractArrayStorage {
         size=0;
     }
 
+
     public void save(Resume r) {
-        Resume CheckValue =CheckValue(r.getUuid());
-         if (CheckValue==null) {
-            boolean flag=checkFreeSize();
-            if (flag) {
-                for (int i = 0; i < storage.length; i++) {
-                    if (storage[i]==null) {
-                        storage[i] = r;
-                        size++;
-                        break;
-                    }
-                }
-            }else System.out.println("not enough space");
-         }else System.out.println("Resume already exist");
+        if (CheckValue(r.getUuid()) != -1) {
+            System.out.println("Resume " + r.getUuid() + " already exist");
+        } else if (size >= storage.length) {
+            System.out.println("Storage overflow");
+        } else {
+            storage[size] = r;
+            size++;
+        }
     }
 
-    public boolean checkFreeSize() {
+   /* public boolean checkFreeSize() {
         return size<storage.length;
-    }
+    }*/
 
-    public Resume get(String uuid) {
-        Resume f = CheckValue(uuid);
-        if (f!=null)
-        return f;
-        else
-            System.out.println("Resume not found");
-        return f;
-    }
 
     public void delete(String uuid) {
         for (int i = 0; i <size ; i++) {
@@ -58,13 +46,13 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    public Resume CheckValue(String uuid) {
-        Resume a = Arrays.stream(storage)
-                .filter(i -> i!=null)
-                .filter(i -> i.getUuid().equals(uuid))
-                .findFirst()
-                .orElse(null);
-        return a;
+    public int CheckValue(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -77,18 +65,18 @@ public class ArrayStorage extends AbstractArrayStorage {
         return storage1;
     }
 
-    public int size() {
+   /* public int size() {
         return size;
+    }*/
+
+    public void update(Resume r) {
+        int index = CheckValue(r.getUuid());
+        if (index == -1) {
+            System.out.println("Resume " + r.getUuid() + " not exist");
+        } else {
+            storage[index] = r;
+
+        }
+
     }
-
-    public void update(Resume u,Resume replace)
-    {
-        Resume f =CheckValue(u.getUuid());
-        if (f!=null) {
-            int index = Arrays.asList(storage).indexOf(f);
-            storage[index] = replace;
-        }else System.out.println("Resume not found");
-
-    }
-
 }
