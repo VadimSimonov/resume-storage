@@ -23,24 +23,23 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         } else if (size >= storage.length) {
             System.out.println("Storage overflow");
         } else {
-
+            int i= -index-1;
+            System.arraycopy(storage,i,storage,i+1,size-i);
+            storage[i]=r;
             size++;
         }
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
+        int s = size - index-1;;
         if (index < 0) {
             System.out.println("Resume " + uuid + " not exist");
         } else {
-            if (index!=size-1) {
-                System.arraycopy(storage,index,storage,index,size );
-            }else
-                storage[size-1] = null;
-            size--;
+            if (s>0)
+                System.arraycopy(storage,index+1,storage,index,s);
             storage[size - 1] = null;
             size--;
-
         }
 
     }
