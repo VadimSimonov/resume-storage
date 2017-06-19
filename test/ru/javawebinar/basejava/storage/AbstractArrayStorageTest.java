@@ -28,7 +28,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void clear() throws Exception {
-
+        System.out.println();
     }
 
     @Test
